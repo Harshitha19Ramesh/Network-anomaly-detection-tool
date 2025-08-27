@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background : url('https://informationage-production.s3.amazonaws.com/uploads/2023/02/three-ideal-scenarios-for-anomaly-detection-with-machine-learning-1568x882.jpg');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 420px;
+            text-align: center;
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 1rem;
+        }
+        .stat {
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        .benign { color: green; font-weight: bold; }
+        .attack { color: red; font-weight: bold; }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Prediction Summary</h1>
+        <div class="stat">Total Records: <strong>{{ total }}</strong></div>
+        <div class="stat benign">Benign Flows: {{ benign }}</div>
+        <div class="stat attack">DDoS Attacks: {{ attack }}</div>
+
+        <canvas id="resultChart" width="300" height="300"></canvas>
+    </div>
+
+   <script>
+    const benign = Number("{{ benign }}");
+    const attack = Number("{{ attack }}");
+
+    const ctx = document.getElementById('resultChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Benign', 'Attack'],
+            datasets: [{
+                data: [benign, attack],
+                backgroundColor: ['#4CAF50', '#F44336'],
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+</script>
+
+
+</body>
+</html>
